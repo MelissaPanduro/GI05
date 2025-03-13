@@ -41,15 +41,7 @@ public class VentaController {
         return ventaService.updateVenta(id, venta);
     }
 
-    @Operation(summary = "Eliminar lógicamente una venta")
-    @DeleteMapping("/logic/{id}")
-    public Mono<VentaModel> deleteLogicVenta(@PathVariable Long id) {
-        return ventaService.deleteLogicVenta(id);
-    }
-
-    @Operation(summary = "Restaurar una venta eliminada lógicamente")
-    @PutMapping("/restaurar/{id}")
-    public Mono<VentaModel> restoreVenta(@PathVariable Long id) {
-        return ventaService.restoreVenta(id);
-    }
 }
+
+
+    

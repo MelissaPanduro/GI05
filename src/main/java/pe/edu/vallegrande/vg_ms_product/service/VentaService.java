@@ -57,45 +57,15 @@ public class VentaService {
         return ventaRepository.findById(id)
                 .switchIfEmpty(Mono.error(new RuntimeException("Venta no encontrada con ID: " + id)))
                 .flatMap(existingVenta -> {
-                    existingVenta.setCliente(venta.getCliente());
+                    
                     existingVenta.setFecha(venta.getFecha());
                     existingVenta.setTotal(venta.getTotal());
-                    existingVenta.setEstado(venta.getEstado());
+
                     return ventaRepository.save(existingVenta);
                 });
     }
 
-    /**
-     * Eliminar una venta de forma lógica (cambiar su estado a "cancelada").
-     * @param id ID de la venta a eliminar.
-     * @return Mono<VentaModel> venta actualizada como "cancelada".
-     */
-    public Mono<VentaModel> deleteLogicVenta(Long id) {
-        return ventaRepository.findById(id)
-                .switchIfEmpty(Mono.error(new RuntimeException("Venta no encontrada con ID: " + id)))
-                .flatMap(venta -> {
-                    venta.setEstado("cancelada");
-                    return ventaRepository.save(venta);
-                });
-    }
-
-    /**
-     * Restaurar una venta eliminada (cambiar su estado a "completada").
-     * @param id ID de la venta a restaurar.
-     * @return Mono<VentaModel> venta restaurada.
-     */
-    public Mono<VentaModel> restoreVenta(Long id) {
-        return ventaRepository.findById(id)
-                .switchIfEmpty(Mono.error(new RuntimeException("Venta no encontrada con ID: " + id)))
-                .flatMap(venta -> {
-                    if ("cancelada".equalsIgnoreCase(venta.getEstado())) {
-                        venta.setEstado("completada");
-                        return ventaRepository.save(venta);
-                    } else {
-                        return Mono.error(new RuntimeException("La venta no está cancelada, no se puede restaurar"));
-                    }
-                });
-    }
+    
 
     /**
      * Obtener ventas en un rango de fechas.

@@ -47,19 +47,8 @@ public class VentaRest {
         return ventaService.updateVenta(id, venta);
     }
 
-    // Eliminar lógicamente una venta
-    @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar lógicamente una venta")
-    public Mono<VentaModel> deleteLogicVenta(@PathVariable Long id) {
-        return ventaService.deleteLogicVenta(id);
-    }
 
-    // Restaurar una venta eliminada
-    @PutMapping("/restaurar/{id}")
-    @Operation(summary = "Restaurar una venta eliminada")
-    public Mono<VentaModel> restoreVenta(@PathVariable Long id) {
-        return ventaService.restoreVenta(id);
-    }
+
 
     // Obtener ventas en un rango de fechas
     @GetMapping("/rango-fechas")
