@@ -7,18 +7,49 @@ import pe.edu.vallegrande.vg_ms_product.model.VentaModel;
 import pe.edu.vallegrande.vg_ms_product.service.VentaService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import java.time.LocalDate;
-
+import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping("/ventas")
+@RequestMapping("/api/ventas")
+@CrossOrigin(origins = "*")
 public class VentaController {
+
     @Autowired
     private VentaService ventaService;
 
+    @Operation(summary = "Obtener todas las ventas")
+    @GetMapping
+    public Flux<VentaModel> getAllVentas() {
+        return ventaService.getAllVentas();
+    }
+
+    @Operation(summary = "Obtener una venta por ID")
+    @GetMapping("/{id}")
+    public Mono<VentaModel> getVentaById(@PathVariable Long id) {
+        return ventaService.getVentaById(id);
+    }
+
+    @Operation(summary = "Registrar una nueva venta")
     @PostMapping
-    public ResponseEntity<Venta> registrarVenta(@RequestParam Long idProducto, @RequestParam int cantidad) {
-        Venta venta = ventaService.registrarVenta(idProducto, cantidad);
-        return ResponseEntity.ok(venta);
+    public Mono<VentaModel> createVenta(@RequestBody VentaModel venta) {
+        return ventaService.createVenta(venta);
+    }
+
+    @Operation(summary = "Actualizar una venta existente")
+    @PutMapping("/{id}")
+    public Mono<VentaModel> updateVenta(@PathVariable Long id, @RequestBody VentaModel venta) {
+        return ventaService.updateVenta(id, venta);
+    }
+
+    @Operation(summary = "Eliminar lógicamente una venta")
+    @DeleteMapping("/logic/{id}")
+    public Mono<VentaModel> deleteLogicVenta(@PathVariable Long id) {
+        return ventaService.deleteLogicVenta(id);
+    }
+
+    @Operation(summary = "Restaurar una venta eliminada lógicamente")
+    @PutMapping("/restaurar/{id}")
+    public Mono<VentaModel> restoreVenta(@PathVariable Long id) {
+        return ventaService.restoreVenta(id);
     }
 }
