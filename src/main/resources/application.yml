@@ -1,0 +1,13 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://neondb_owner:o0jzHvOclyh7@ep-old-surf-a5b1zjoi.us-east-2.aws.neon.tech/neondb?sslmode=require
+    username: neondb_owner
+    password: o0jzHvOclyh7
+    pool:
+      enabled: true
+    max-connection-lifetime: 30000
+
+server:
+  port: 8085
+
+
